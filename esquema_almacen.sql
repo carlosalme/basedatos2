@@ -82,3 +82,28 @@ SELECT sec_calificaciones.NEXTVAL INTO my_id_calif FROM DUAL;
 INSERT INTO calificaciones VALUES(my_id_calif, my_materia, my_valor);
 END;
 /
+
+--probar procedimiento
+DECLARE
+valor INTEGER;
+BEGIN
+guardar_calificaciones(valor, 'simulacion', 9);
+END;
+/
+
+--verificamos
+SELECT * FROM calificaciones
+DELETE FROM calificaciones WHERE id_calificaciones=2;
+SELECT COUNT(*) AS total_calificaciones FROM calificaciones;
+
+--ejemplo de cursor explicito con la tabla calificaciones 
+DECLARE 
+CURSOR cur_calif IS SELECT * FROM calificaciones;
+BEGIN
+  FOR rec IN cur_calif LOOP
+  DBMS_OUTPUT.PUT_LINE('Calificacion ' || rec.valor|| ' Materia' || rec.materia);
+  END LOOP;
+END;
+/
+
+SET serveroutput ON; --solo se ejecuta una sola vez
