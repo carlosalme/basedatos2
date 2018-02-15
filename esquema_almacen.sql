@@ -58,6 +58,15 @@ CONSTRAINT FK2_venta_cliente FOREIGN KEY (numero_cliente) REFERENCES cliente(num
 --procedimineto para vendedor
 
 
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --ejemplo de una tabla y su procedimineto almacenado para guardar con 
 --pk impuesto o artificial
 CREATE TABLE calificaciones(
@@ -87,7 +96,7 @@ END;
 DECLARE
 valor INTEGER;
 BEGIN
-guardar_calificaciones(valor, 'simulacion', 9);
+guardar_calificaciones(valor, 'FUND. NEG. ELEC.', 10);
 END;
 /
 
@@ -107,3 +116,22 @@ END;
 /
 
 SET serveroutput ON; --solo se ejecuta una sola vez
+
+--CURSOR DE ACTUALIZACION
+DECLARE
+CURSOR cur_2 IS SELECT * FROM calificaciones FOR UPDATE;
+BEGIN
+  FOR rec IN cur_2 LOOP
+    IF rec.valor<5 THEN 
+      UPDATE calificaciones SET valor=5 WHERE CURRENT OF cur_2;
+    END IF;
+  END LOOP;
+END;
+/  
+
+
+DECLARE
+CURSOR cur_3 IS SELECT * FROM calificaciones FOR UPDATE;
+BEGIN
+  FOR rec IN cur_3 LOOP
+    
